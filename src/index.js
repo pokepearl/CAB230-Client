@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {GetListOfOffences, registerUser, loginUser, RunSearch} from './api';
+import {GetListOfOffences, registerUser, loginUser, RunSearch, setOffenceCache} from './api';
 //fakemail@notreal.com
 //password
 
@@ -26,7 +26,7 @@ function DrawSearchTool() {
                 event.preventDefault();
                 const usrQuery = document.getElementById('query').value;
                 const usrQuerySafe = encodeURIComponent(usrQuery);
-                const finalQuery = '?offence='+usrQuerySafe;
+                const finalQuery = 'offence='+usrQuerySafe;
                 document.getElementById('searchTool').innerHTML = finalQuery;
                 RunSearchLoader(finalQuery);
                 
@@ -39,14 +39,15 @@ function DrawSearchTool() {
     );
 }
 function RunSearchLoader(query) {
-    
-    ReactDOM.render(<RunSearchLoaderFinal query={query} />, document.getElementById("printDemo"));
+    setOffenceCache(query);
+    ReactDOM.render(<RunSearchLoaderFinal />, document.getElementById("printDemo"));
 }
-function RunSearchLoaderFinal(query) {
-    const {loading, result, error} = RunSearch(query);
-    //console.log(JSON.stringify(result));
+function RunSearchLoaderFinal() {
+    const {loading, result, error} = RunSearch();
+    console.log(result);
     return (
-        <div></div>
+        JSON.stringify(result)
+        
     );
 }
 

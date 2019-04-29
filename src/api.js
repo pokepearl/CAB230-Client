@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 let TOKEN = null;
 let lastQuery = null;
+let offenceCache = null;
+
+export function setOffenceCache(contents) {
+    offenceCache = contents;
+}
 
 export function registerUser(email, password) {
     fetch("https://cab230.hackhouse.sh/register", {
@@ -97,12 +102,13 @@ function LoadListOfOffences() {
     .then(res => res.offences)
 }
 
-export function RunSearch(query) {
+
+export function RunSearch() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
     const [error,setError] = useState(null);
-    let urlBase = "https://cab230.hackhouse.sh/search";
-    let urlFinal = urlBase+query;
+    let urlBase = "https://cab230.hackhouse.sh/search?";
+    let urlFinal = urlBase+offenceCache;
 
     useEffect (() => {
         POSTSearch(urlFinal)
@@ -129,4 +135,6 @@ function POSTSearch(url) {
     getParam.headers = head;
     return fetch(url, getParam)
     .then(res => res.json())
+    .then(res => res.result)
+
 }
