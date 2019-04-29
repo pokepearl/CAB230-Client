@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import './App.css';
 
-class App extends Component {
+/*class App extends Component {
   render() {
     return (
       <div className="App">
@@ -23,6 +23,7 @@ class App extends Component {
       </div>
     );
   }
-}
+}*/
 
-export default App;
+//export default App;
+
