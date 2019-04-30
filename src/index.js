@@ -44,13 +44,41 @@ function RunSearchLoader(query) {
 }
 function RunSearchLoaderFinal() {
     const {loading, result, error} = RunSearch();
+    const res2 = JSON.stringify(result);
     console.log(result);
     return (
-        JSON.stringify(result)
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Local Government Area</th>
+                    <th>Total</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {result.map(resp => (
+                        <ResultTable LGA={resp.LGA} total={resp.total} lat={resp.lat} lng={resp.lng} />
+                    ))}
+                </tbody>
+            </table>
+        </div>
         
     );
 }
 
+function ResultTable(props) {
+    return (
+            <tr>
+                <td>{props.LGA}</td>
+                <td>{props.total}</td>
+                <td>{props.lat}</td>
+                <td>{props.lng}</td>
+            </tr>
+
+    );
+}
 function onChangeOption(event) {
     var id = event.nativeEvent.target.selectedIndex;
     //alert('native: ' + event.nativeEvent.target[id].text);
@@ -74,6 +102,7 @@ function RenderOffences() {
     return (
         <div>
             <select onChange={onChangeOption}>
+            <option value="---">---</option>
             {result.map(resp => (
                         <ResultHT title={resp} />
                     ))}
