@@ -6,7 +6,7 @@ let offenceCache = null;
 
 export function setOffenceCache(contents) {
     offenceCache = contents;
-    console.log("Updated to: "+offenceCache);
+    console.log("Updated offence: "+offenceCache);
 }
 
 export function registerUser(email, password) {
@@ -101,6 +101,42 @@ function LoadListOfOffences() {
     return fetch(url, getParam)
     .then(res => res.json())
     .then(res => res.offences)
+}
+
+export function GetListOfAreas() {
+    const [loading,setLoading] = useState(true);
+    const [result,setResult] = useState([]);
+    const [error,setError] = useState(null);
+    //
+    //getParam.headers = head;
+    
+
+    useEffect (() => {
+        LoadListOfAreas()
+            .then(result =>{
+                setResult(result);
+                setLoading(false);
+            })
+            .catch(e => {
+                setError(e);
+                setLoading(false);
+            });
+    }, []);
+    return {
+        loading,
+        result,
+        error
+    };
+
+};
+function LoadListOfAreas() {
+    let url = "https://cab230.hackhouse.sh/areas";
+    let getParam = {method: "GET"};
+    let head = { Authorization: `Bearer ${TOKEN}`};
+    getParam.headers = head;
+    return fetch(url, getParam)
+    .then(res => res.json())
+    .then(res => res.areas)
 }
 
 

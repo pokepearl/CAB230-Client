@@ -1,23 +1,25 @@
 import React, {useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {GetListOfOffences, registerUser, loginUser, RunSearch, setOffenceCache} from './api';
+import {GetListOfOffences, registerUser, loginUser, RunSearch, setOffenceCache, GetListOfAreas} from './api';
 //fakemail@notreal.com
 //password
 
 let offenceCache = null;
+let areaCache = null;
 
 // General button render, display buttons to call different searches
 function OffenceButtons() {
     return (
         <div className="crimeBtns">
-            <button onClick={startOffenceRender}>Offences</button>
-            <button onClick={LoadSearchTool}>Search Data</button>
+            <br/><button onClick={LoadSearchTool}>Search Data</button>
         </div>
     );
 }
 
 function LoadSearchTool() {
+    ReactDOM.render(<RenderOffences />, document.getElementById("OffenceList"));
+    ReactDOM.render(<RenderAreas />, document.getElementById("AreaList"));
     ReactDOM.render(<DrawSearchTool />, document.getElementById('searchTool'));
 }
 function DrawSearchTool() {
@@ -29,7 +31,7 @@ function DrawSearchTool() {
                 const usrQuery = offenceCache;
                 const usrQuerySafe = encodeURIComponent(usrQuery);
                 const finalQuery = 'offence='+usrQuerySafe;
-                document.getElementById('searchTool').innerHTML = finalQuery;
+                //document.getElementById('searchTool').innerHTML = finalQuery;
                 RunSearchLoader(finalQuery);
             }}>
             
@@ -40,7 +42,7 @@ function DrawSearchTool() {
 }
 function RunSearchLoader(query) {
     setOffenceCache(query);
-    ReactDOM.render(<RunSearchLoaderFinal />, document.getElementById("printDemo"));
+    ReactDOM.render(<RunSearchLoaderFinal />, document.getElementById("searchResults"));
 }
 function RunSearchLoaderFinal() {
     const {loading, result, error} = RunSearch();
@@ -79,9 +81,12 @@ function ResultTable(props) {
 
     );
 }
-function onChangeOption(event) {
+function onChangeOptionOffence(event) {
     var id = event.nativeEvent.target.selectedIndex;
-    //alert('native: ' + event.nativeEvent.target[id].text);
+    offenceCache = event.nativeEvent.target[id].text;
+}
+function onChangeOptionArea(event) {
+    var id = event.nativeEvent.target.selectedIndex;
     offenceCache = event.nativeEvent.target[id].text;
 }
 
@@ -94,29 +99,36 @@ function ResultHT(props) {
         </div>*/
     );
 }
-function startOffenceRender() {
-    ReactDOM.render(<RenderOffences />, document.getElementById("printDemo"));
-}
+/*function startOffenceRender() {
+    ReactDOM.render(<RenderOffences />, document.getElementById("OffenceList"));
+}*/
 function RenderOffences() {
     const {loading, result, error} = GetListOfOffences();
     return (
         <div>
-            <select onChange={onChangeOption}>
+            <label>Offences: </label>
+            <select onChange={onChangeOptionOffence}>
             <option value="---">---</option>
             {result.map(resp => (
-                        <ResultHT title={resp} />
-                    ))}
+                    <ResultHT title={resp} />
+                ))}
             </select>
         </div>
-        /*<div className="RenderOffences">
-        <table style={{border: '1px solid black'}}>
-                <tbody>
-                    {result.map(resp => (
-                        <ResultHT title={resp} />
-                    ))}
-                </tbody>
-            </table>
-        </div>*/
+    );
+}
+
+function RenderAreas() {
+    const {loading, result, error} = GetListOfAreas();
+    return (
+        <div>
+            <label>Areas: </label>
+            <select onChange={onChangeOptionArea}>
+            <option value="ALL">ALL</option>
+            {result.map(resp => (
+                    <ResultHT title={resp} />
+                ))}
+            </select>
+        </div>
     );
 }
 
