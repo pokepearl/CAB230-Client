@@ -1,12 +1,12 @@
 import React, {useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {GetListOfOffences, registerUser, loginUser, RunSearch, setOffenceCache, GetListOfAreas} from './api';
+import {GetListOfOffences, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches} from './api';
 //fakemail@notreal.com
 //password
 
 let offenceCache = null;
-let areaCache = null;
+let areaCache = "ALL";
 
 // General button render, display buttons to call different searches
 function OffenceButtons() {
@@ -28,9 +28,7 @@ function DrawSearchTool() {
             <form onSubmit={(event) => {
                 event.preventDefault();
                 //const usrQuery = document.getElementById('query').value;
-                const usrQuery = offenceCache;
-                const usrQuerySafe = encodeURIComponent(usrQuery);
-                const finalQuery = 'offence='+usrQuerySafe;
+                const finalQuery = 'offence='+encodeURIComponent(offenceCache);
                 //document.getElementById('searchTool').innerHTML = finalQuery;
                 RunSearchLoader(finalQuery);
             }}>
@@ -41,7 +39,7 @@ function DrawSearchTool() {
     );
 }
 function RunSearchLoader(query) {
-    setOffenceCache(query);
+    setCaches(query, encodeURIComponent(areaCache));
     ReactDOM.render(<RunSearchLoaderFinal />, document.getElementById("searchResults"));
 }
 function RunSearchLoaderFinal() {
@@ -87,7 +85,7 @@ function onChangeOptionOffence(event) {
 }
 function onChangeOptionArea(event) {
     var id = event.nativeEvent.target.selectedIndex;
-    offenceCache = event.nativeEvent.target[id].text;
+    areaCache = event.nativeEvent.target[id].text;
 }
 
 //Template for creating entries

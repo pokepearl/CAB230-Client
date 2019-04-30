@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 let TOKEN = null;
 let lastQuery = null;
 let offenceCache = null;
+let areaCache = null;
 
-export function setOffenceCache(contents) {
-    offenceCache = contents;
+export function setCaches(offence, area) {
+    offenceCache = offence;
+    areaCache = area;
     console.log("Updated offence: "+offenceCache);
+    console.log("Updated area: "+areaCache);
 }
 
 export function registerUser(email, password) {
@@ -146,6 +149,10 @@ export function RunSearch() {
     const [error,setError] = useState(null);
     let urlBase = "https://cab230.hackhouse.sh/search?";
     let urlFinal = urlBase+offenceCache;
+    if (areaCache !== "ALL") {
+        let payload = "&area="+areaCache;
+        urlFinal = urlFinal+payload;
+    }
 
     useEffect (() => {
         POSTSearch(urlFinal)
