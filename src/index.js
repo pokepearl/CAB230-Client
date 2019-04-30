@@ -1,12 +1,16 @@
 import React, {useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {GetListOfOffences, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches} from './api';
+import {GetListOfOffences, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
 //fakemail@notreal.com
 //password
 
 let offenceCache = null;
 let areaCache = "ALL";
+let ageCache = "ALL";
+let genderCache = "ALL";
+let yearCache = "ALL";
+let monthCache = "ALL";
 
 // General button render, display buttons to call different searches
 function OffenceButtons() {
@@ -20,6 +24,10 @@ function OffenceButtons() {
 function LoadSearchTool() {
     ReactDOM.render(<RenderOffences />, document.getElementById("OffenceList"));
     ReactDOM.render(<RenderAreas />, document.getElementById("AreaList"));
+    ReactDOM.render(<RenderAges />, document.getElementById("AgeList"));
+    ReactDOM.render(<RenderGenders />, document.getElementById("GenderList"));
+    ReactDOM.render(<RenderYears />, document.getElementById("YearList"));
+    ReactDOM.render(<RenderMonths />, document.getElementById("MonthList"));
     ReactDOM.render(<DrawSearchTool />, document.getElementById('searchTool'));
 }
 function DrawSearchTool() {
@@ -39,7 +47,7 @@ function DrawSearchTool() {
     );
 }
 function RunSearchLoader(query) {
-    setCaches(query, encodeURIComponent(areaCache));
+    setCaches(query, encodeURIComponent(areaCache), encodeURIComponent(ageCache), encodeURIComponent(genderCache), encodeURIComponent(yearCache), encodeURIComponent(monthCache));
     ReactDOM.render(<RunSearchLoaderFinal />, document.getElementById("searchResults"));
 }
 function RunSearchLoaderFinal() {
@@ -87,6 +95,22 @@ function onChangeOptionArea(event) {
     var id = event.nativeEvent.target.selectedIndex;
     areaCache = event.nativeEvent.target[id].text;
 }
+function onChangeOptionAge(event) {
+    var id = event.nativeEvent.target.selectedIndex;
+    ageCache = event.nativeEvent.target[id].text;
+}
+function onChangeOptionGender(event) {
+    var id = event.nativeEvent.target.selectedIndex;
+    genderCache = event.nativeEvent.target[id].text;
+}
+function onChangeOptionYear(event) {
+    var id = event.nativeEvent.target.selectedIndex;
+    yearCache = event.nativeEvent.target[id].text;
+}
+function onChangeOptionMonth(event) {
+    var id = event.nativeEvent.target.selectedIndex;
+    monthCache = event.nativeEvent.target[id].text;
+}
 
 //Template for creating entries
 function ResultHT(props) {
@@ -125,6 +149,71 @@ function RenderAreas() {
             {result.map(resp => (
                     <ResultHT title={resp} />
                 ))}
+            </select>
+        </div>
+    );
+}
+function RenderAges() {
+    const {loading, result, error} = GetListOfAges();
+    return (
+        <div>
+            <label>Ages: </label>
+            <select onChange={onChangeOptionAge}>
+            <option value="ALL">ALL</option>
+            {result.map(resp => (
+                    <ResultHT title={resp} />
+                ))}
+            </select>
+        </div>
+    );
+}
+function RenderGenders() {
+    const {loading, result, error} = GetListOfGenders();
+    return (
+        <div>
+            <label>Genders: </label>
+            <select onChange={onChangeOptionGender}>
+            <option value="ALL">ALL</option>
+            {result.map(resp => (
+                    <ResultHT title={resp} />
+                ))}
+            </select>
+        </div>
+    );
+}
+function RenderYears() {
+    const {loading, result, error} = GetListOfYears();
+    return (
+        <div>
+            <label>Years: </label>
+            <select onChange={onChangeOptionYear}>
+            <option value="ALL">ALL</option>
+            {result.map(resp => (
+                    <ResultHT title={resp} />
+                ))}
+            </select>
+        </div>
+    );
+    
+}
+function RenderMonths() {
+    return (
+        <div>
+            <label>Months: </label>
+            <select onChange={onChangeOptionMonth}>
+            <option value="ALL">ALL</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
             </select>
         </div>
     );

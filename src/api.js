@@ -4,12 +4,24 @@ let TOKEN = null;
 let lastQuery = null;
 let offenceCache = null;
 let areaCache = null;
+let ageCache = null;
+let genderCache = null;
+let yearCache = null;
+let monthCache = null;
 
-export function setCaches(offence, area) {
+export function setCaches(offence, area, age, gender, year, month) {
     offenceCache = offence;
     areaCache = area;
+    ageCache = age;
+    genderCache = gender;
+    yearCache = year;
+    monthCache = month;
     console.log("Updated offence: "+offenceCache);
     console.log("Updated area: "+areaCache);
+    console.log("Updated age: "+ageCache);
+    console.log("Updated gender: "+genderCache);
+    console.log("Updated year: "+yearCache);
+    console.log("Updated month: "+monthCache);
 }
 
 export function registerUser(email, password) {
@@ -142,6 +154,115 @@ function LoadListOfAreas() {
     .then(res => res.areas)
 }
 
+export function GetListOfAges() {
+    const [loading,setLoading] = useState(true);
+    const [result,setResult] = useState([]);
+    const [error,setError] = useState(null);
+    //
+    //getParam.headers = head;
+    
+
+    useEffect (() => {
+        LoadListOfAges()
+            .then(result =>{
+                setResult(result);
+                setLoading(false);
+            })
+            .catch(e => {
+                setError(e);
+                setLoading(false);
+            });
+    }, []);
+    return {
+        loading,
+        result,
+        error
+    };
+
+};
+function LoadListOfAges() {
+    let url = "https://cab230.hackhouse.sh/ages";
+    let getParam = {method: "GET"};
+    let head = { Authorization: `Bearer ${TOKEN}`};
+    getParam.headers = head;
+    return fetch(url, getParam)
+    .then(res => res.json())
+    .then(res => res.ages)
+}
+
+export function GetListOfGenders() {
+    const [loading,setLoading] = useState(true);
+    const [result,setResult] = useState([]);
+    const [error,setError] = useState(null);
+    //
+    //getParam.headers = head;
+    
+
+    useEffect (() => {
+        LoadListOfGenders()
+            .then(result =>{
+                setResult(result);
+                setLoading(false);
+            })
+            .catch(e => {
+                setError(e);
+                setLoading(false);
+            });
+    }, []);
+    return {
+        loading,
+        result,
+        error
+    };
+
+};
+function LoadListOfGenders() {
+    let url = "https://cab230.hackhouse.sh/genders";
+    let getParam = {method: "GET"};
+    let head = { Authorization: `Bearer ${TOKEN}`};
+    getParam.headers = head;
+    return fetch(url, getParam)
+    .then(res => res.json())
+    .then(res => res.genders)
+}
+
+export function GetListOfYears() {
+    const [loading,setLoading] = useState(true);
+    const [result,setResult] = useState([]);
+    const [error,setError] = useState(null);
+    //
+    //getParam.headers = head;
+    
+
+    useEffect (() => {
+        LoadListOfYears()
+            .then(result =>{
+                setResult(result);
+                setLoading(false);
+            })
+            .catch(e => {
+                setError(e);
+                setLoading(false);
+            });
+    }, []);
+    return {
+        loading,
+        result,
+        error
+    };
+
+};
+function LoadListOfYears() {
+    let url = "https://cab230.hackhouse.sh/years";
+    let getParam = {method: "GET"};
+    let head = { Authorization: `Bearer ${TOKEN}`};
+    getParam.headers = head;
+    return fetch(url, getParam)
+    .then(res => res.json())
+    .then(res => res.years)
+}
+
+
 
 export function RunSearch() {
     const [loading,setLoading] = useState(true);
@@ -153,6 +274,24 @@ export function RunSearch() {
         let payload = "&area="+areaCache;
         urlFinal = urlFinal+payload;
     }
+    if (ageCache !== "ALL") {
+        let payload = "&age="+ageCache;
+        urlFinal = urlFinal+payload;
+    }
+    if (genderCache !== "ALL") {
+        let payload = "&gender="+genderCache;
+        urlFinal = urlFinal+payload;
+    }
+    if (yearCache !== "ALL") {
+        let payload = "&year="+yearCache;
+        urlFinal = urlFinal+payload;
+    }
+    if (monthCache !== "ALL") {
+        let payload = "&month="+monthCache;
+        urlFinal = urlFinal+payload;
+    }
+    console.log(urlFinal);
+
 
     useEffect (() => {
         POSTSearch(urlFinal)
