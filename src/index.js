@@ -5,6 +5,7 @@ import {GetListOfOffences, registerUser, loginUser, RunSearch, setOffenceCache} 
 //fakemail@notreal.com
 //password
 
+let offenceCache = null;
 
 // General button render, display buttons to call different searches
 function OffenceButtons() {
@@ -24,15 +25,14 @@ function DrawSearchTool() {
         <div className="searchTool">
             <form onSubmit={(event) => {
                 event.preventDefault();
-                const usrQuery = document.getElementById('query').value;
+                //const usrQuery = document.getElementById('query').value;
+                const usrQuery = offenceCache;
                 const usrQuerySafe = encodeURIComponent(usrQuery);
                 const finalQuery = 'offence='+usrQuerySafe;
                 document.getElementById('searchTool').innerHTML = finalQuery;
                 RunSearchLoader(finalQuery);
-                
             }}>
-            <label htmlFor="query">Search Query:</label>
-            <input id="query" name="query" />
+            
             <button type="submit">Search</button>
             </form>
         </div>
@@ -51,12 +51,19 @@ function RunSearchLoaderFinal() {
     );
 }
 
+function onChangeOption(event) {
+    var id = event.nativeEvent.target.selectedIndex;
+    //alert('native: ' + event.nativeEvent.target[id].text);
+    offenceCache = event.nativeEvent.target[id].text;
+}
+
 //Template for creating entries
 function ResultHT(props) {
     return (
-        <div className="ResultHT">
+        <option value={props.title}>{props.title}</option>
+        /*<div className="ResultHT">
             <tr><td style={{border: '1px solid black'}}>{props.title}</td></tr>
-        </div>
+        </div>*/
     );
 }
 function startOffenceRender() {
@@ -65,7 +72,14 @@ function startOffenceRender() {
 function RenderOffences() {
     const {loading, result, error} = GetListOfOffences();
     return (
-        <div className="RenderOffences">
+        <div>
+            <select onChange={onChangeOption}>
+            {result.map(resp => (
+                        <ResultHT title={resp} />
+                    ))}
+            </select>
+        </div>
+        /*<div className="RenderOffences">
         <table style={{border: '1px solid black'}}>
                 <tbody>
                     {result.map(resp => (
@@ -73,7 +87,7 @@ function RenderOffences() {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div>*/
     );
 }
 

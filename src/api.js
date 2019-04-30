@@ -6,6 +6,7 @@ let offenceCache = null;
 
 export function setOffenceCache(contents) {
     offenceCache = contents;
+    console.log("Updated to: "+offenceCache);
 }
 
 export function registerUser(email, password) {
