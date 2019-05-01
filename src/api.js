@@ -41,7 +41,6 @@ export function registerUser(email, password) {
         .then(function(result) {
           ReactDOM.render('', document.getElementById('loginForm'));
           ReactDOM.render('Registered Successfully!', document.getElementById('loginFormResult'));
-          //regButton.disabled = true;
         })
         .catch(function(error) {
             ReactDOM.render('ERROR: Was not able to register, this address might already be in use.', document.getElementById('loginFormResult'));
@@ -79,9 +78,6 @@ export function GetListOfOffences() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
     const [error,setError] = useState(null);
-    //
-    //getParam.headers = head;
-    
 
     useEffect (() => {
         LoadListOfOffences()
@@ -114,10 +110,7 @@ function LoadListOfOffences() {
 export function GetListOfAreas() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
-    const [error,setError] = useState(null);
-    //
-    //getParam.headers = head;
-    
+    const [error,setError] = useState(null);    
 
     useEffect (() => {
         LoadListOfAreas()
@@ -151,9 +144,6 @@ export function GetListOfAges() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
     const [error,setError] = useState(null);
-    //
-    //getParam.headers = head;
-    
 
     useEffect (() => {
         LoadListOfAges()
@@ -187,9 +177,6 @@ export function GetListOfGenders() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
     const [error,setError] = useState(null);
-    //
-    //getParam.headers = head;
-    
 
     useEffect (() => {
         LoadListOfGenders()
@@ -223,10 +210,7 @@ export function GetListOfYears() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
     const [error,setError] = useState(null);
-    //
-    //getParam.headers = head;
     
-
     useEffect (() => {
         LoadListOfYears()
             .then(result =>{

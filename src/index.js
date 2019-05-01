@@ -114,14 +114,9 @@ function onChangeOptionMonth(event) {
 function ResultHT(props) {
     return (
         <option value={props.title}>{props.title}</option>
-        /*<div className="ResultHT">
-            <tr><td style={{border: '1px solid black'}}>{props.title}</td></tr>
-        </div>*/
     );
 }
-/*function startOffenceRender() {
-    ReactDOM.render(<RenderOffences />, document.getElementById("OffenceList"));
-}*/
+
 function RenderOffences() {
     const {loading, result, error} = GetListOfOffences();
     return (
@@ -217,14 +212,6 @@ function RenderMonths() {
     );
 }
 
-
-
-
-
-
-
-
-
 const genLoginForm = () => {
     ReactDOM.render(<MakeLoginForm />, document.getElementById('loginForm'));
 };
@@ -258,8 +245,6 @@ function MakeRegisterForm() {
                 const usrEmail = document.getElementById('emailForm').value;
                 const usrPwd = document.getElementById('pwdForm').value;
                 registerUser(usrEmail, usrPwd);
-                //console.log(usrEmail);
-                //console.log(usrPwd);
             }}>
             <label htmlFor="email">Email Address:</label>
             <input id="emailForm" name="email" type="email" /><br/>
