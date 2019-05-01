@@ -39,15 +39,12 @@ export function registerUser(email, password) {
           throw new Error("Network response was not ok");
         })
         .then(function(result) {
-          let appDiv = document.getElementById("loginFormResult");
-          //appDiv.innerHTML = JSON.stringify(result);
-          appDiv.innerHTML = "Registered Successfully!";
           ReactDOM.render('', document.getElementById('loginForm'));
+          ReactDOM.render('Registered Successfully!', document.getElementById('loginFormResult'));
           //regButton.disabled = true;
         })
         .catch(function(error) {
-            let appDiv = document.getElementById("loginFormResult");
-            appDiv.innerHTML = "ERROR: Was not able to authenticate, check that your credentials are valid.";
+            ReactDOM.render('ERROR: Was not able to register, this address might already be in use.', document.getElementById('loginFormResult'));
         });
 }
 
@@ -66,18 +63,14 @@ export function loginUser(email, password) {
             throw new Error("Network response was not ok.");
         })
         .then(function(result) {
-            let appDiv = document.getElementById("loginFormResult");
-            //appDiv.innerHTML = JSON.stringify(result);
-            appDiv.innerHTML = "Authenticated Successfully!";
+            ReactDOM.render('Authenticated Successfully!', document.getElementById('loginFormResult'));
             TOKEN = result.token;
             console.log(TOKEN);
             ReactDOM.render('', document.getElementById('loginForm'));
             ReactDOM.render('', document.getElementById('loginFormButton'))
-            //ReactDOM.render(<OffenceButtons />, document.getElementById('crimeBtns'));
         })
         .catch(function(error) {
-            let appDiv = document.getElementById("loginFormResult");
-            appDiv.innerHTML = "ERROR: Was not able to authenticate, check that your credentials are valid.";
+            ReactDOM.render('ERROR: Was not able to authenticate, check that your credentials are valid.', document.getElementById('loginFormResult'));
         });
 }
 

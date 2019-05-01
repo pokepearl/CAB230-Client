@@ -35,9 +35,7 @@ function DrawSearchTool() {
         <div className="searchTool">
             <form onSubmit={(event) => {
                 event.preventDefault();
-                //const usrQuery = document.getElementById('query').value;
                 const finalQuery = 'offence='+encodeURIComponent(offenceCache);
-                //document.getElementById('searchTool').innerHTML = finalQuery;
                 RunSearchLoader(finalQuery);
             }}>
             
