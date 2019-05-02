@@ -5,6 +5,13 @@ import {GetListOfOffences, registerUser, loginUser, RunSearch, GetListOfAreas, s
 //fakemail@notreal.com
 //password
 
+
+//IMORTANT
+// Move Login/Register to separate page
+// Make register redirect to login
+// Fix table not clearing
+// Make separate page for offences list.
+
 //Cache variables - used for tempoarily storing the data from search fields for later use.
 let offenceCache = null;
 let areaCache = "ALL";
@@ -259,7 +266,7 @@ function MakeLoginForm() {
             <input id="emailForm" name="email" type="email" /><br/>
             <label htmlFor="pwd">Password:</label>
             <input id="pwdForm" name="pwd" type="password" /><br/>
-            <button type="submit">Submit</button>
+            <button type="submit">Login</button>
             </form>
         </div>
     );
@@ -279,7 +286,7 @@ function MakeRegisterForm() {
             <input id="emailForm" name="email" type="email" /><br/>
             <label htmlFor="pwd">Password:</label>
             <input id="pwdForm" name="pwd" type="password" /><br/>
-            <button type="submit">Submit</button>
+            <button type="submit">Register</button>
             </form>
         </div>
     );

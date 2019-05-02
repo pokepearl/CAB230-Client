@@ -32,7 +32,7 @@ export function setCaches(offence, area, age, gender, year, month) {
 export function registerUser(email, password) {
     fetch("https://cab230.hackhouse.sh/register", {
         method: "POST",
-        body: 'email='+ email +'&password=' + password + '',
+        body: 'email='+ encodeURIComponent(email) +'&password=' + encodeURIComponent(password)  + '',
         headers: {
           "Content-type": "application/x-www-form-urlencoded"
         }
@@ -56,7 +56,7 @@ export function registerUser(email, password) {
 export function loginUser(email, password) {
     fetch("https://cab230.hackhouse.sh/login", {
         method: "POST",
-        body: 'email='+ email +'&password=' + password + '',
+        body: 'email='+ encodeURIComponent(email) +'&password=' + encodeURIComponent(password)  + '',
         headers: {
             "Content-type": "application/x-www-form-urlencoded"
         }
@@ -274,6 +274,11 @@ export function RunSearch() {
         let payload = "&month="+monthCache;
         urlFinal = urlFinal+payload;
     }
+    /*if (offenceCache == null) {
+        return (
+            <p>ERROR: Missing offence.</p>
+        );
+    }*/
     console.log(urlFinal);
 
 
