@@ -5,6 +5,7 @@ import {GetListOfOffences, registerUser, loginUser, RunSearch, GetListOfAreas, s
 //fakemail@notreal.com
 //password
 
+//Cache variables - used for tempoarily storing the data from search fields for later use.
 let offenceCache = null;
 let areaCache = "ALL";
 let ageCache = "ALL";
@@ -21,6 +22,7 @@ function OffenceButtons() {
     );
 }
 
+//Renders search form, calls functions to retrieve data for dropdowns and render them in specific divs.
 function LoadSearchTool() {
     ReactDOM.render(<RenderOffences />, document.getElementById("OffenceList"));
     ReactDOM.render(<RenderAreas />, document.getElementById("AreaList"));
@@ -30,6 +32,9 @@ function LoadSearchTool() {
     ReactDOM.render(<RenderMonths />, document.getElementById("MonthList"));
     ReactDOM.render(<DrawSearchTool />, document.getElementById('searchTool'));
 }
+
+//Grabs the last offence written to the cache variable, URI Encodes it, constructs offence param and sends it to the function
+//which starts the API calls.
 function DrawSearchTool() {
     return (
         <div className="searchTool">
@@ -44,10 +49,15 @@ function DrawSearchTool() {
         </div>
     );
 }
+
+//URI Encodes cache variables and sends them to a function in the API file before running function which makes the API call
+//and rendering the result.
 function RunSearchLoader(query) {
     setCaches(query, encodeURIComponent(areaCache), encodeURIComponent(ageCache), encodeURIComponent(genderCache), encodeURIComponent(yearCache), encodeURIComponent(monthCache));
     ReactDOM.render(<RunSearchLoaderFinal />, document.getElementById("searchResults"));
 }
+
+//Calls function to search the API and creates the table structure before creating a map and inserting results from ResultTable.
 function RunSearchLoaderFinal() {
     const {loading, result, error} = RunSearch();
     const res2 = JSON.stringify(result);
@@ -74,6 +84,7 @@ function RunSearchLoaderFinal() {
     );
 }
 
+//Takes the mapped data passed to it and generates a table row with the appropriate data.
 function ResultTable(props) {
     return (
             <tr>
@@ -85,6 +96,8 @@ function ResultTable(props) {
 
     );
 }
+//Updates the cache variable with the selected data from the search field.
+//TODO: Deduplicate into one function.
 function onChangeOptionOffence(event) {
     var id = event.nativeEvent.target.selectedIndex;
     offenceCache = event.nativeEvent.target[id].text;
@@ -110,13 +123,14 @@ function onChangeOptionMonth(event) {
     monthCache = event.nativeEvent.target[id].text;
 }
 
-//Template for creating entries
+//Takes given mapped data and creates an option entry in a dropdown list.
 function ResultHT(props) {
     return (
         <option value={props.title}>{props.title}</option>
     );
 }
 
+//Calls the API to get a list of offences and generates a dropdown with the results.
 function RenderOffences() {
     const {loading, result, error} = GetListOfOffences();
     return (
@@ -132,6 +146,7 @@ function RenderOffences() {
     );
 }
 
+//Calls the API to get a list of areas and generates a dropdown with the results.
 function RenderAreas() {
     const {loading, result, error} = GetListOfAreas();
     return (
@@ -146,6 +161,8 @@ function RenderAreas() {
         </div>
     );
 }
+
+//Calls the API to get a list of ages and generates a dropdown with the results.
 function RenderAges() {
     const {loading, result, error} = GetListOfAges();
     return (
@@ -160,6 +177,8 @@ function RenderAges() {
         </div>
     );
 }
+
+//Calls the API to get a list of genders and generates a dropdown with the results.
 function RenderGenders() {
     const {loading, result, error} = GetListOfGenders();
     return (
@@ -174,6 +193,8 @@ function RenderGenders() {
         </div>
     );
 }
+
+//Calls the API to get a list of years and generates a dropdown with the results.
 function RenderYears() {
     const {loading, result, error} = GetListOfYears();
     return (
@@ -189,6 +210,8 @@ function RenderYears() {
     );
     
 }
+
+//Generates a dropdown with a list of months (1-12)
 function RenderMonths() {
     return (
         <div>
@@ -212,12 +235,17 @@ function RenderMonths() {
     );
 }
 
+//Renders the function to create the login form.
 const genLoginForm = () => {
     ReactDOM.render(<MakeLoginForm />, document.getElementById('loginForm'));
 };
+
+//Renders the function to create the register form.
 const genSignupForm = () => {
     ReactDOM.render(<MakeRegisterForm />, document.getElementById('loginForm'));
 };
+
+//Returns the HTML code to create the login form and runs the code to call the API and get a token on login.
 function MakeLoginForm() {
     return (
         <div className="loginForm">
@@ -237,6 +265,7 @@ function MakeLoginForm() {
     );
 }
 
+//Returns the HTML code to create the login form and runs the code to call the API and register the user.
 function MakeRegisterForm() {
     return (
         <div className="loginForm">
@@ -256,7 +285,7 @@ function MakeRegisterForm() {
     );
 }
 
-
+//Returns code for the buttons to call the register and login forms.
 function LoginForm() {
     return (
         <div className="LoginFormButton">
@@ -266,5 +295,6 @@ function LoginForm() {
     );
 };
 
+//Renders the login form buttons and the search button. On by default.
 ReactDOM.render(<LoginForm />, document.getElementById('loginFormButton'));
 ReactDOM.render(<OffenceButtons />, document.getElementById('crimeBtns'));

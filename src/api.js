@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
+
+//Token variable for authentication.
 let TOKEN = null;
-let lastQuery = null;
+
+//Cache of the data used for searching.
 let offenceCache = null;
 let areaCache = null;
 let ageCache = null;
@@ -9,6 +12,7 @@ let genderCache = null;
 let yearCache = null;
 let monthCache = null;
 
+//Sets the requested variables into the cache for use in searches.
 export function setCaches(offence, area, age, gender, year, month) {
     offenceCache = offence;
     areaCache = area;
@@ -24,6 +28,7 @@ export function setCaches(offence, area, age, gender, year, month) {
     console.log("Updated month: "+monthCache);
 }
 
+//Sends a POST to the API with registration info.
 export function registerUser(email, password) {
     fetch("https://cab230.hackhouse.sh/register", {
         method: "POST",
@@ -47,6 +52,7 @@ export function registerUser(email, password) {
         });
 }
 
+//Sends a post to the API with login info, returns the auth token.
 export function loginUser(email, password) {
     fetch("https://cab230.hackhouse.sh/login", {
         method: "POST",
@@ -73,7 +79,7 @@ export function loginUser(email, password) {
         });
 }
 
-
+//Initial function for calling API for list of offences. Consider merging.
 export function GetListOfOffences() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
@@ -97,6 +103,8 @@ export function GetListOfOffences() {
     };
 
 };
+
+//Calls API to get list of offences. TODO: Consider merging.
 function LoadListOfOffences() {
     let url = "https://cab230.hackhouse.sh/offences";
     let getParam = {method: "GET"};
@@ -239,8 +247,7 @@ function LoadListOfYears() {
     .then(res => res.years)
 }
 
-
-
+//Constructs the request to the main search API, adding optional parameters as needed, and returning the final JSON data.
 export function RunSearch() {
     const [loading,setLoading] = useState(true);
     const [result,setResult] = useState([]);
@@ -289,6 +296,7 @@ export function RunSearch() {
     
 }
 
+//Sends GET request the API with the URL created with the parameters and the required authentication token.
 function POSTSearch(url) {
     let getParam = {method: "GET"};
     let head = { Authorization: `Bearer ${TOKEN}`};
