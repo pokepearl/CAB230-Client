@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 
+
+let getUrl = window.location;
+let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" ;
 //Token variable for authentication.
 let TOKEN = null;
 
@@ -72,12 +75,13 @@ export function loginUser(email, password) {
             throw new Error("Network response was not ok.");
         })
         .then(function(result) {
-            ReactDOM.render('Authenticated Successfully!', document.getElementById('loginFormResult'));
+            //ReactDOM.render('Authenticated Successfully!', document.getElementById('loginFormResult'));
             TOKEN = result.token;
             localStorage.setItem("JWT", TOKEN);
             console.log(TOKEN);
-            ReactDOM.render('', document.getElementById('loginForm'));
-            ReactDOM.render('', document.getElementById('loginFormButton'))
+            window.location.href = baseUrl+"search/";
+            //ReactDOM.render('', document.getElementById('loginForm'));
+            //ReactDOM.render('', document.getElementById('loginFormButton'))
         })
         .catch(function(error) {
             ReactDOM.render('ERROR: Was not able to authenticate, check that your credentials are valid.', document.getElementById('loginFormResult'));

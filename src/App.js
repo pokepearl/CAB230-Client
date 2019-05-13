@@ -6,6 +6,9 @@ import {GetListOfOffences, updateToken, registerUser, loginUser, RunSearch, GetL
 //fakemail@notreal.com
 //password
 
+let getUrl = window.location;
+let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" ;
+
 function AppRouter() {
     return (
         <Router>
@@ -38,14 +41,43 @@ function AppRouter() {
 export default AppRouter;
 
 function RouteLogin() {
-    return <h2>Login</h2>;
+    
+    if (localStorage.getItem("JWT")===null) {
+        return <MakeLoginForm />;
+    } else {
+        updateToken();
+        window.location.href = baseUrl+"search/";
+        return "";
+    }
+    
 }
 function RouteRegister() {
-    return <h2>Login</h2>;
+    return <h2>Register</h2>;
 }
 function RouteSearch() {
-    return <h2>Login</h2>;
+    return <h2>Search</h2>;
 }
 function RouteOffences() {
-    return <h2>Login</h2>;
+    return <h2>Offences</h2>;
 }
+
+//Returns the HTML code to create the login form and runs the code to call the API and get a token on login.
+function MakeLoginForm() {
+    return (
+        <div className="loginForm">
+            <form onSubmit={(event) => {
+                event.preventDefault();
+                const usrEmail = document.getElementById('emailForm').value;
+                const usrPwd = document.getElementById('pwdForm').value;
+                loginUser(usrEmail, usrPwd);
+            }}>
+            <label htmlFor="email">Email Address:</label>
+            <input id="emailForm" name="email" type="email" /><br/>
+            <label htmlFor="pwd">Password:</label>
+            <input id="pwdForm" name="pwd" type="password" /><br/>
+            <button type="submit">Login</button>
+            </form>
+        </div>
+    );
+}
+
