@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {GetListOfOffences, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
+import {GetListOfOffences, updateToken, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
 //fakemail@notreal.com
 //password
 
@@ -303,5 +303,9 @@ function LoginForm() {
 };
 
 //Renders the login form buttons and the search button. On by default.
-ReactDOM.render(<LoginForm />, document.getElementById('loginFormButton'));
+if (localStorage.getItem("JWT")===null) {
+    ReactDOM.render(<LoginForm />, document.getElementById('loginFormButton'));
+} else {
+    updateToken();
+}
 ReactDOM.render(<OffenceButtons />, document.getElementById('crimeBtns'));

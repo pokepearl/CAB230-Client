@@ -27,6 +27,10 @@ export function setCaches(offence, area, age, gender, year, month) {
     console.log("Updated year: "+yearCache);
     console.log("Updated month: "+monthCache);
 }
+//Updates token stored in the variable with the one in local storage.
+export function updateToken() {
+    TOKEN = localStorage.getItem("JWT");
+}
 
 //Sends a POST to the API with registration info.
 export function registerUser(email, password) {
@@ -70,6 +74,7 @@ export function loginUser(email, password) {
         .then(function(result) {
             ReactDOM.render('Authenticated Successfully!', document.getElementById('loginFormResult'));
             TOKEN = result.token;
+            localStorage.setItem("JWT", TOKEN);
             console.log(TOKEN);
             ReactDOM.render('', document.getElementById('loginForm'));
             ReactDOM.render('', document.getElementById('loginFormButton'))
