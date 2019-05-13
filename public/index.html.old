@@ -26,7 +26,21 @@
   </head>
   <body>
       <noscript>You need to enable JavaScript to run this app.</noscript>
-      <div id="root"></div>
+    <div id="loginFormButton"></div>
+    <div id="loginForm"></div>
+    <div id="loginFormResult"></div>
+    <br />
+    <br />
+    <div id="crimeBtns"></div>
+    <div id="OffenceList"></div>
+    <div id="AreaList"></div>
+    <div id="AgeList"></div>
+    <div id="GenderList"></div>
+    <div id="YearList"></div>
+    <div id="MonthList"></div>
+    <div id="searchTool"></div>
+    
+    <div id="searchResults"></div>
     <!--div id="root"></div>-->
     <!--
       This HTML file is a template.
