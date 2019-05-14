@@ -338,13 +338,17 @@ function RunSearchLoaderFinal() {
 
 //Takes the mapped data passed to it and generates a table row with the appropriate data.
 function ResultTable(props) {
-    return (
+    if (props.total==0) {
+        return "";
+    } else {
+        return (
             <tr>
                 <td>{props.LGA}</td>
                 <td>{props.total}</td>
                 <td>{props.lat}</td>
                 <td>{props.lng}</td>
             </tr>
-
     );
+    }
+    
 }
