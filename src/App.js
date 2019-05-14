@@ -149,22 +149,27 @@ function onChangeOptionOffence(event) {
 function onChangeOptionArea(event) {
     var id = event.nativeEvent.target.selectedIndex;
     areaCache = event.nativeEvent.target[id].text;
+    ReactDOM.render("", document.getElementById("table"));
 }
 function onChangeOptionAge(event) {
     var id = event.nativeEvent.target.selectedIndex;
     ageCache = event.nativeEvent.target[id].text;
+    ReactDOM.render("", document.getElementById("table"));
 }
 function onChangeOptionGender(event) {
     var id = event.nativeEvent.target.selectedIndex;
     genderCache = event.nativeEvent.target[id].text;
+    ReactDOM.render("", document.getElementById("table"));
 }
 function onChangeOptionYear(event) {
     var id = event.nativeEvent.target.selectedIndex;
     yearCache = event.nativeEvent.target[id].text;
+    ReactDOM.render("", document.getElementById("table"));
 }
 function onChangeOptionMonth(event) {
     var id = event.nativeEvent.target.selectedIndex;
     monthCache = event.nativeEvent.target[id].text;
+    ReactDOM.render("", document.getElementById("table"));
 }
 
 //Takes given mapped data and creates an option entry in a dropdown list.
