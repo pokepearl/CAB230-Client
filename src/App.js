@@ -52,7 +52,7 @@ function RouteSearch() {
     return <h2>Search</h2>;
 }
 function RouteOffences() {
-    return <h2>Offences</h2>;
+    return <RenderOffencePage />;
 }
 
 //Returns the HTML code to create the login form and runs the code to call the API and get a token on login.
@@ -94,3 +94,26 @@ function MakeRegisterForm() {
     );
 }
 
+function RenderOffencePage() {
+    const {loading, result, error} = GetListOfOffences();
+    return (
+        <div>
+            <table style={{border: '1px solid black', borderCollapse: 'collapse'}}>
+            <tbody>
+            {result.map(resp => (
+                    <OffenceTable offence={resp} />
+                ))}
+            </tbody>
+            </table>
+        </div>
+    );
+}
+
+function OffenceTable(props) {
+    return (
+            <tr style={{border: '1px solid black'}}>
+                <td style={{border: '1px solid black'}}>{props.offence}</td>
+            </tr>
+
+    );
+}
