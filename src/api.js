@@ -315,7 +315,7 @@ export function RunSearch() {
 //Sends GET request the API with the URL created with the parameters and the required authentication token.
 function POSTSearch(url) {
     let getParam = {method: "GET"};
-    let head = { Authorization: `Bearer ${TOKEN}`};
+    let head = { Authorization: `Bearer ${localStorage.getItem("JWT")}`};
     getParam.headers = head;
     return fetch(url, getParam)
     .then(res => res.json())
