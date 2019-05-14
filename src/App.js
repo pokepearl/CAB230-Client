@@ -144,6 +144,7 @@ function OffenceTable(props) {
 function onChangeOptionOffence(event) {
     var id = event.nativeEvent.target.selectedIndex;
     offenceCache = event.nativeEvent.target[id].text;
+    ReactDOM.render("", document.getElementById("table"));
 }
 function onChangeOptionArea(event) {
     var id = event.nativeEvent.target.selectedIndex;
@@ -298,6 +299,7 @@ function DrawSearchTool() {
 //URI Encodes cache variables and sends them to a function in the API file before running function which makes the API call
 //and rendering the result.
 function RunSearchLoader(query) {
+    ReactDOM.render("", document.getElementById("table"));
     setCaches(query, encodeURIComponent(areaCache), encodeURIComponent(ageCache), encodeURIComponent(genderCache), encodeURIComponent(yearCache), encodeURIComponent(monthCache));
     ReactDOM.render(<RunSearchLoaderFinal />, document.getElementById("table"));
 }
