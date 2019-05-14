@@ -51,11 +51,11 @@ export function registerUser(email, password) {
           throw new Error("Network response was not ok");
         })
         .then(function(result) {
-          ReactDOM.render('', document.getElementById('loginForm'));
-          ReactDOM.render('Registered Successfully!', document.getElementById('loginFormResult'));
+          window.alert("Registered Successfully!");
+          window.location.href = baseUrl;
         })
         .catch(function(error) {
-            ReactDOM.render('ERROR: Was not able to register, this address might already be in use.', document.getElementById('loginFormResult'));
+            window.alert("ERROR: Was not able to register, this address might already be in use.");
         });
 }
 
@@ -79,12 +79,14 @@ export function loginUser(email, password) {
             TOKEN = result.token;
             localStorage.setItem("JWT", TOKEN);
             console.log(TOKEN);
+            window.alert("Authenticated Successfully!");
             window.location.href = baseUrl+"search/";
+            
             //ReactDOM.render('', document.getElementById('loginForm'));
             //ReactDOM.render('', document.getElementById('loginFormButton'))
         })
         .catch(function(error) {
-            ReactDOM.render('ERROR: Was not able to authenticate, check that your credentials are valid.', document.getElementById('loginFormResult'));
+            window.alert("ERROR: Was not able to authenticate, check that your credentials are valid.");
         });
 }
 

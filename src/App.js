@@ -9,25 +9,16 @@ import {GetListOfOffences, updateToken, registerUser, loginUser, RunSearch, GetL
 let getUrl = window.location;
 let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" ;
 
+
 function AppRouter() {
     return (
         <Router>
             <div>
                 <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="/register/">Register</Link>
-                        </li>
-                        <li>
-                            <Link to="/search/">Search</Link>
-                        </li>
-                        <li>
-                            <Link to="/offences/">Offences</Link>
-                        </li>
-                    </ul>
+                <Link to="/">Login</Link>  
+                <Link to="/register/">Register</Link>  
+                <Link to="/search/">Search</Link>  
+                <Link to="/offences/">Offences</Link>
                     <Route path="/" exact component={RouteLogin} />
                     <Route path="/register/" component={RouteRegister} />
                     <Route path="/search/" component={RouteSearch} />
@@ -46,13 +37,16 @@ function RouteLogin() {
         return <MakeLoginForm />;
     } else {
         updateToken();
+        
+        
         window.location.href = baseUrl+"search/";
         return "";
+        
     }
     
 }
 function RouteRegister() {
-    return <h2>Register</h2>;
+    return <MakeRegisterForm />
 }
 function RouteSearch() {
     return <h2>Search</h2>;
@@ -76,6 +70,25 @@ function MakeLoginForm() {
             <label htmlFor="pwd">Password:</label>
             <input id="pwdForm" name="pwd" type="password" /><br/>
             <button type="submit">Login</button>
+            </form>
+            <Link to="/register/">Register Here</Link>
+        </div>
+    );
+}
+function MakeRegisterForm() {
+    return (
+        <div className="loginForm">
+            <form onSubmit={(event) => {
+                event.preventDefault();
+                const usrEmail = document.getElementById('emailForm').value;
+                const usrPwd = document.getElementById('pwdForm').value;
+                registerUser(usrEmail, usrPwd);
+            }}>
+            <label htmlFor="email">Email Address:</label>
+            <input id="emailForm" name="email" type="email" /><br/>
+            <label htmlFor="pwd">Password:</label>
+            <input id="pwdForm" name="pwd" type="password" /><br/>
+            <button type="submit">Register</button>
             </form>
         </div>
     );
