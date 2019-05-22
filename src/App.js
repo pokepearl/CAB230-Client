@@ -351,7 +351,7 @@ function DrawSearchTool() {
                 const finalQuery = 'offence='+encodeURIComponent(offenceCache);
                 RunSearchLoader(finalQuery);
             }}>
-            
+            <p><i>Councils with no incidents are not shown.</i></p>
             <button type="submit">Search</button>
             </form>
         </div>
