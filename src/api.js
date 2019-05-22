@@ -115,12 +115,46 @@ export function GetListOfOffences() {
 
 };
 
+export function GetListOfOffences2() {
+    const [loading,setLoading] = useState(true);
+    const [result,setResult] = useState([]);
+    const [error,setError] = useState(null);
+
+    useEffect (() => {
+        LoadListOfOffences2()
+            .then(result =>{
+                setResult(result);
+                setLoading(false);
+            })
+            .catch(e => {
+                setError(e);
+                setLoading(false);
+            });
+    }, []);
+    //setResult(JSON.stringify(result));
+    return {
+        loading,
+        result,
+        error
+    };
+
+};
+
 //Calls API to get list of offences. TODO: Consider merging.
 function LoadListOfOffences() {
     let url = "https://cab230.hackhouse.sh/offences";
     let getParam = {method: "GET"};
     let head = { Authorization: `Bearer ${TOKEN}`};
     getParam.headers = head;
+    return fetch(url, getParam)
+    .then(res => res.json())
+    .then(res => res.offences)
+}
+function LoadListOfOffences2() {
+    let url = "https://cab230.hackhouse.sh/offences";
+    let getParam = {method: "GET"};
+    //let head = { Authorization: `Bearer ${TOKEN}`};
+    //getParam.headers = head;
     return fetch(url, getParam)
     .then(res => res.json())
     .then(res => res.offences)

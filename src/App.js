@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import {GetListOfOffences, updateToken, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
+import {GetListOfOffences, GetListOfOffences2, updateToken, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
+import ReactTable from 'react-table';
 //fakemail@notreal.com
 //password
 
@@ -117,15 +118,30 @@ function MakeRegisterForm() {
 
 function RenderOffencePage() {
     const {loading, result, error} = GetListOfOffences();
+    let resstring = JSON.stringify(result);
+    console.log("RES: "+resstring);
     return (
         <div>
-            <table style={{border: '1px solid black', borderCollapse: 'collapse'}}>
-            <tbody>
-            {result.map(resp => (
-                    <OffenceTable offence={resp} />
-                ))}
-            </tbody>
-            </table>
+            <ReactTable
+              data={result}
+              columns={[
+                  {
+                      Header: "Offences",
+                      columns: [
+                          {
+                              Header: "Offence",
+                              accessor: ""
+                          }
+                      ]
+                  }
+              ]}
+              defaultSorted={[
+                  {
+                      id: "",
+                      desc: true
+                  }
+              ]}
+              />
         </div>
     );
 }
