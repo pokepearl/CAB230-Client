@@ -330,27 +330,38 @@ function RunSearchLoader(query) {
 //Calls function to search the API and creates the table structure before creating a map and inserting results from ResultTable.
 function RunSearchLoaderFinal() {
     const {loading, result, error} = RunSearch();
-    const res2 = JSON.stringify(result);
-    console.log(res2);
     return (
         <div>
-            <table>
-                <thead>
-                <tr>
-                    <th>Local Government Area</th>
-                    <th>Total</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {result.map(resp => (
-                        <ResultTable LGA={resp.LGA} total={resp.total} lat={resp.lat} lng={resp.lng} />
-                    ))}
-                </tbody>
-            </table>
+            <ReactTable
+              data={result}
+              showPagination={true}
+              showPaginationTop={true}
+              showPaginationBottom={false}
+              minRows={0}
+              defaultPageSize={100}
+              columns={[
+                  {
+                      Header: "Results",
+                      columns: [
+                          {
+                              Header: "Local Governnment Area",
+                              accessor: "LGA"
+                          },
+                          {
+                              Header: "Total",
+                              accessor: "total"
+                          }
+                      ]
+                  }
+              ]}
+              defaultSorted={[
+                  {
+                      id: "LGA",
+                      desc: false
+                  }
+              ]}
+              />
         </div>
-        
     );
 }
 
