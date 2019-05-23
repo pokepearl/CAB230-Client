@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {GetListOfOffences, GetListOfOffences2, updateToken, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
 import ReactTable from 'react-table';
+import "react-table/react-table.css";
 //fakemail@notreal.com
 //password
 
@@ -124,6 +125,7 @@ function RenderOffencePage() {
         <div>
             <ReactTable
               data={result}
+              showPagination={false}
               columns={[
                   {
                       Header: "Offences",
@@ -138,7 +140,7 @@ function RenderOffencePage() {
               defaultSorted={[
                   {
                       id: "",
-                      desc: true
+                      desc: false
                   }
               ]}
               />

@@ -144,9 +144,9 @@ export function GetListOfOffences2() {
 function LoadListOfOffences() {
     let url = "https://cab230.hackhouse.sh/offences";
     let getParam = {method: "GET"};
-    let head = { Authorization: `Bearer ${TOKEN}`};
-    getParam.headers = head;
-    return fetch(url, getParam)
+    //let head = { Authorization: `Bearer ${TOKEN}`};
+    //getParam.headers = head;
+    return fetch(url, getParam, {mode: 'no-cors'})
     .then(res => res.json())
     .then(res => res.offences)
 }
