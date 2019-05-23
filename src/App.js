@@ -125,7 +125,11 @@ function RenderOffencePage() {
         <div>
             <ReactTable
               data={result}
-              showPagination={false}
+              showPagination={true}
+              showPaginationTop={true}
+              showPaginationBottom={false}
+              minRows={0}
+              defaultPageSize={100}
               columns={[
                   {
                       Header: "Offences",
