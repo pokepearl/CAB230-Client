@@ -20,25 +20,60 @@ let yearCache = "ALL";
 let monthCache = "ALL";
 
 function AppRouter() {
-    return (
-        <Router>
-            <div>
-                <nav>
-                <Link to="/">Login</Link>  
-                <Link to="/register/">Register</Link>  
-                <Link to="/search/">Search</Link>  
-                <Link to="/offences/">Offences</Link>
-                    <Route path="/" exact component={RouteLogin} />
-                    <Route path="/register/" component={RouteRegister} />
-                    <Route path="/search/" component={RouteSearch} />
-                    <Route path="/offences/" component={RouteOffences} />
-                </nav>
-            </div>
-        </Router>
-    )
+    if (checkLogin()) {
+        return (
+            <Router>
+                <div>
+                    <nav>
+                    <Link to="/signout/">Sign Out</Link>  
+                    <Link to="/search/">Search</Link>  
+                    <Link to="/offences/">Offences</Link>
+                        <Route path="/" exact component={RouteLogin} />
+                        <Route path="/signout/" exact component={RouteSignout} />
+                        <Route path="/register/" component={RouteRegister} />
+                        <Route path="/search/" component={RouteSearch} />
+                        <Route path="/offences/" component={RouteOffences} />
+                    </nav>
+                </div>
+            </Router>
+        )
+    } else {
+        return (
+            <Router>
+                <div>
+                    <nav>
+                    <Link to="/">Login</Link>  
+                    <Link to="/offences/">Offences</Link>
+                        <Route path="/" exact component={RouteLogin} />
+                        <Route path="/signout/" exact component={RouteSignout} />
+                        <Route path="/register/" component={RouteRegister} />
+                        <Route path="/search/" component={RouteSearch} />
+                        <Route path="/offences/" component={RouteOffences} />
+                    </nav>
+                </div>
+            </Router>
+        )
+    }
+    
 
 }
 export default AppRouter;
+
+function checkLogin() {
+    if (localStorage.getItem("JWT")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function RouteSignout() {
+    ReactDOM.render("", document.getElementById("table"));
+    localStorage.removeItem("JWT");
+    window.location.href = baseUrl;
+    return "";
+
+}
 
 function RouteLogin() {
     ReactDOM.render("", document.getElementById("table"));
@@ -334,6 +369,7 @@ function RunSearchLoader(query) {
 //Calls function to search the API and creates the table structure before creating a map and inserting results from ResultTable.
 function RunSearchLoaderFinal() {
     const {loading, result, error} = RunSearch();
+    console.log(result);
     return (
         <div>
             <ReactTable
