@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './override.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import {GetListOfOffences, GetListOfOffences2, updateToken, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
+import {GetListOfOffences, updateToken, registerUser, loginUser, RunSearch, GetListOfAreas, setCaches, GetListOfAges, GetListOfGenders, GetListOfYears} from './api';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
 //fakemail@notreal.com
@@ -155,7 +155,6 @@ function MakeRegisterForm() {
 function RenderOffencePage() {
     const {loading, result, error} = GetListOfOffences();
     let resstring = JSON.stringify(result);
-    console.log("RES: "+resstring);
     return (
         <div>
             <ReactTable
@@ -369,7 +368,11 @@ function RunSearchLoader(query) {
 //Calls function to search the API and creates the table structure before creating a map and inserting results from ResultTable.
 function RunSearchLoaderFinal() {
     const {loading, result, error} = RunSearch();
+<<<<<<< HEAD
     console.log(result);
+=======
+    localStorage.setItem("lastSearch", JSON.stringify(result));
+>>>>>>> 1103dab... Remove Console.log
     return (
         <div>
             <ReactTable

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import ReactDOM from 'react-dom';
 
 
 let getUrl = window.location;
@@ -23,12 +22,6 @@ export function setCaches(offence, area, age, gender, year, month) {
     genderCache = gender;
     yearCache = year;
     monthCache = month;
-    console.log("Updated offence: "+offenceCache);
-    console.log("Updated area: "+areaCache);
-    console.log("Updated age: "+ageCache);
-    console.log("Updated gender: "+genderCache);
-    console.log("Updated year: "+yearCache);
-    console.log("Updated month: "+monthCache);
 }
 //Updates token stored in the variable with the one in local storage.
 export function updateToken() {
@@ -61,11 +54,10 @@ export function registerUser(email, password) {
 
 //Sends a post to the API with login info, returns the auth token.
 export function loginUser(email, password) {
-    fetch("https://cab230.hackhouse.sh/login", {
-        method: "POST",
-        body: 'email='+ encodeURIComponent(email) +'&password=' + encodeURIComponent(password)  + '',
-        headers: {
-            "Content-type": "application/x-www-form-urlencoded"
+    let response = runActualLogin(email, password);
+    response.then(function(result) {
+        if (result.ok) {
+            return result.json();
         }
     })
         .then(function(response) {
@@ -81,14 +73,24 @@ export function loginUser(email, password) {
             console.log(TOKEN);
             window.alert("Authenticated Successfully!");
             window.location.href = baseUrl+"search/";
-            
-            //ReactDOM.render('', document.getElementById('loginForm'));
-            //ReactDOM.render('', document.getElementById('loginFormButton'))
-        })
-        .catch(function(error) {
-            window.alert("ERROR: Was not able to authenticate, check that your credentials are valid.");
-        });
-}
+    }).catch(function(err) {
+        window.alert("ERROR: Was not able to authenticate, check that your credentials are valid.");
+    })
+    
+}   
+function runActualLogin(email, password) {
+    return fetch("https://cab230.hackhouse.sh/login", {
+        method: "POST",
+        body: JSON.stringify({
+            email: encodeURIComponent(email),
+            password: encodeURIComponent(password)
+        }),
+        headers: {
+          "Content-type": "application/json"
+        },
+    }).then(response => {return response});
+};
+
 
 //Initial function for calling API for list of offences. Consider merging.
 export function GetListOfOffences() {
@@ -319,12 +321,10 @@ export function RunSearch() {
         let payload = "&month="+monthCache;
         urlFinal = urlFinal+payload;
     }
-    /*if (offenceCache == null) {
-        return (
-            <p>ERROR: Missing offence.</p>
-        );
-    }*/
-    console.log(urlFinal);
+    if (offenceCache === "offence=null") {
+        window.alert("ERROR: You must set the offence parameter to continue");
+        return "";
+    }
 
 
     useEffect (() => {
@@ -332,6 +332,8 @@ export function RunSearch() {
             .then(result =>{
                 setResult(result);
                 setLoading(false);
+                return result.json();
+            }).then(function(res2) {
             })
             .catch(e => {
                 setError(e);
